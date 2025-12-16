@@ -172,3 +172,18 @@ class MenuItemAdditional(BaseModel):
         
     def __str__(self):
         return self.menu_item.name + ' - ' + self.additional.name
+
+class MeatPoint(BaseModel):
+    name = models.CharField(
+        max_length=50,
+        db_column='nome',
+        verbose_name='Nome'
+    )
+    
+    class Meta:
+        db_table = 'tb_pontos_carne'
+        verbose_name = 'Ponto de carne'
+        verbose_name_plural = 'Pontos de carne'
+
+    def __str__(self):
+        return self.name
