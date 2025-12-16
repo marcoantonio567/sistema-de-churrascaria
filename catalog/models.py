@@ -122,3 +122,53 @@ class MenuItemIngredient(BaseModel):
 
     def __str__(self):
         return self.menu_item.name + ' - ' + self.ingredient.name
+
+class Additional(BaseModel):
+    name = models.CharField(
+        max_length=100,
+        db_column='nome',
+        verbose_name='Nome'
+    )
+
+    price = models.DecimalField(
+        max_digits=7, 
+        decimal_places=2,
+        db_column='preco',
+        verbose_name='Preco'
+    )
+
+    class Meta:
+        db_table = 'tb_adicionais'
+        verbose_name = 'Adicional'
+        verbose_name_plural = 'Adicionais'
+
+        unique_together = ('name', 'price')
+        
+    def __str__(self):
+        return self.name + ' - ' + str(self.price)
+
+class MenuItemAdditional(BaseModel):
+    menu_item_id = models.ForeignKey(
+        MenuItem, 
+        on_delete=models.CASCADE,
+        db_column='id_item_menu',
+        verbose_name='Item do menu'
+    )
+    
+    additional_id = models.ForeignKey(
+        Additional, 
+        on_delete=models.PROTECT,
+        db_column='id_adicional',
+        verbose_name='Adicional'
+    )
+
+    class Meta:
+        db_table = 'tb_item_menu_adicionais'
+        verbose_name = 'Adicional do item do menu'
+        verbose_name_plural = 'Adicionais do item do menu'
+
+        unique_together = ('menu_item_id', 'additional_id')
+
+        
+    def __str__(self):
+        return self.menu_item.name + ' - ' + self.additional.name
