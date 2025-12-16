@@ -75,7 +75,7 @@ class MenuItem(BaseModel):
         verbose_name_plural = 'Itens do menu'
 
     def __str__(self):
-        return self.name + ' - ' + self.category.name
+        return self.name + ' - ' + self.category_id.name
 
 class Ingredient(BaseModel):
     name = models.CharField(
@@ -121,7 +121,7 @@ class MenuItemIngredient(BaseModel):
         unique_together = ('menu_item_id', 'ingredient_id')
 
     def __str__(self):
-        return self.menu_item.name + ' - ' + self.ingredient.name
+        return self.menu_item_id.name + ' - ' + self.ingredient_id.name
 
 class Additional(BaseModel):
     name = models.CharField(
@@ -171,7 +171,7 @@ class MenuItemAdditional(BaseModel):
 
         
     def __str__(self):
-        return self.menu_item.name + ' - ' + self.additional.name
+        return self.menu_item_id.name + ' - ' + self.additional_id.name
 
 class MeatPoint(BaseModel):
     name = models.CharField(
