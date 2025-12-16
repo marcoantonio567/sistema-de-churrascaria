@@ -92,7 +92,7 @@ class Ingredient(BaseModel):
     def __str__(self):
         return self.name
 
-class MenuItemIngredient(models.Model):
+class MenuItemIngredient(BaseModel):
     menu_item_id = models.ForeignKey(
         MenuItem, 
         on_delete=models.CASCADE,
@@ -112,3 +112,13 @@ class MenuItemIngredient(models.Model):
         db_column='quantidade',
         verbose_name='Quantidade'
     )
+
+    class Meta:
+        db_table = 'tb_item_menu_ingredientes'
+        verbose_name = 'Ingrediente do item do menu'
+        verbose_name_plural = 'Ingredientes do item do menu'
+
+        unique_together = ('menu_item_id', 'ingredient_id')
+
+    def __str__(self):
+        return self.menu_item.name + ' - ' + self.ingredient.name
