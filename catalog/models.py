@@ -26,14 +26,14 @@ class Category(BaseModel):
     def __str__(self):
         return self.name
 
-class MenuItem(models.Model):
+class MenuItem(BaseModel):
     name = models.CharField(
         max_length=150,
         db_column='nome',
         verbose_name='Nome'
     )
 
-    category = models.ForeignKey(
+    category_id = models.ForeignKey(
         Category, 
         on_delete=models.PROTECT,
         db_column='id_categoria',
@@ -76,3 +76,39 @@ class MenuItem(models.Model):
 
     def __str__(self):
         return self.name + ' - ' + self.category.name
+
+class Ingredient(BaseModel):
+    name = models.CharField(
+        max_length=100,
+        db_column='nome',
+        verbose_name='Nome'
+    )
+
+    class Meta:
+        db_table = 'tb_ingredientes'
+        verbose_name = 'Ingrediente'
+        verbose_name_plural = 'Ingredientes'
+
+    def __str__(self):
+        return self.name
+
+class MenuItemIngredient(models.Model):
+    menu_item_id = models.ForeignKey(
+        MenuItem, 
+        on_delete=models.CASCADE,
+        db_column='id_item_menu',
+        verbose_name='Item do menu'
+    )
+    
+    ingredient_id = models.ForeignKey(
+        Ingredient, 
+        on_delete=models.PROTECT,
+        db_column='id_ingrediente',
+        verbose_name='Ingrediente'
+    )
+
+    quantity = models.PositiveIntegerField(
+        default=1,
+        db_column='quantidade',
+        verbose_name='Quantidade'
+    )
